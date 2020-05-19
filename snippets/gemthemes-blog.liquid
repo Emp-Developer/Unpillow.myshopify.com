@@ -1,0 +1,157 @@
+
+<section class="gt_section-403295 " data-name="Blog">
+    <div class="gt_contentPageBlog">
+        <div class="contentPageBlog_container">
+            
+            {% paginate blog.articles by 4 %}
+            
+            <div class="gt_container content">
+                <div class="list_item_column">
+                    {% for article in blog.articles limit:4 %}
+                    <div class="item">
+                        <div class="title_date">
+                            <div class="title">
+                                <a href="{{ article.url }}">
+                                  <p>
+                                    {{ article.title }}
+                                  </p>
+                                </a>
+                            </div>
+                            <div class="data_item">
+                                <div class="content_data_item">
+                                  <span>{{ article.published_at | date: "%b %d, %y" }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="image_item">
+                            <a href="{{ article.url }}">
+                              <img class=" gt_lazyload" src="{{ article.image.src | img_url: '100x' }}" alt="{{ article.title }}">
+                            </a>
+                        </div>
+                        <div class="description_item">
+                            <a href="{{ article.url }}">
+                                <p>
+                                  {{ article.excerpt }} ...
+                                </p>
+                            </a>
+                        </div>
+                        <div class="read_more">
+                            <p>
+                                <a href="{{ article.url }}">Continue reading</a>
+                                </p><div class="arrow-right icon"></div>
+                            <p></p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                {%- if paginate.pages > 1 -%}
+                <div class="paging">
+                    <ul class="list_page">
+                        {%- if paginate.previous-%}
+                            <li>
+                                <span>
+                                    <a href="{{ paginate.previous.url }}"><div class="arrow-right icon"></div></a>
+                                </span>
+                            </li>
+                        {%- else -%}
+                            <li class="disabled">
+                                <span>
+                                    <a><div class="arrow-right icon"></div></a>
+                                </span>
+                            </li>
+                        {%- endif -%}
+
+                        {%- for part in paginate.parts -%}
+                            {%- if part.is_link -%}
+                                <li class="item">
+                                    <span>
+                                        <a href="{{ part.url }}">{{ part.title }}</a>
+                                    </span>
+                                </li>
+                            {%- else -%}
+                                {%- if part.title == paginate.current_page -%}
+                                    <li class="item current">
+                                        <span>{{ part.title }}</span>
+                                    </li>
+                                {%- else -%}
+                                    <li class="item current">
+                                        <span>{{ part.title }}</span>
+                                    </li>
+                                {%- endif -%}
+                            {%- endif -%}
+                        {%- endfor -%}
+                        {%- if paginate.next -%}
+                            <li class="item next">
+                                <span>
+                                    <a href="{{ paginate.next.url }}"><div class="arrow-right icon"></div></a>
+                                </span>
+                            </li>
+                        {%- else -%}
+                            <li class="item next">
+                                <span>
+                                    <a><div class="arrow-right icon"></div></a>
+                                </span>
+                            </li>
+                        {%- endif -%}
+                    </ul>
+                </div>
+                {%- endif -%}
+            </div>
+            
+            {% endpaginate %}
+            
+        </div>
+    </div>
+</section>
+
+<section class="gt_section-403315 " data-name="Newsletter">
+  <div class="gt_newletter">
+    <div class="gt_container">
+      <div class="gt_flex gt_align-i-center gt_justify-c-center gt_flex-wrap gt_newletter-body">
+        <div class="gt_newletter_content">
+          <h5 class="gt_newletter_headding">
+              Exclusive 10% Discount
+          </h5>
+          <p class="gt_newletter_message">
+            Join our Email List and get 10% OFF on your first order.
+          </p>
+        </div>
+        <div class="gt_newletter-form">
+          
+            {% form 'customer' %} 
+          
+         
+          {% if form.errors %}
+              {% for field in form.errors %}
+                  <div class="gt_newletter_input">
+                    <p class="result-error">{{ field }} {{ form.errors.messages[field] }}</p>
+                  </div>
+              {% endfor %}
+          {% endif %}
+            
+          {% if form.posted_successfully? %}
+              <div class="gt_newletter_input">
+                <p class="result">Thanks for subscribing</p>
+              </div>
+          {% else %}
+          <div class="gt_newletter_input">
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <input class="gt_input" type="email" value="{% if customer %}{{ customer.email }}{% endif %}" name="contact[email]" autocorrect="off" autocapitalize="off" placeholder="Your email here...">
+            <button class="gt_newletter_btn" id="Subscribe" type="submit" aria-label="Subscribe">
+            Submit!
+          </button>
+          </div>
+          <p class="result"></p>
+          <p class="result-error"></p>
+          {% endif %}
+          
+            {% endform %}
+          
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+

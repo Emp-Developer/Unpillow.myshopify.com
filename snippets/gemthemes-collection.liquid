@@ -1,0 +1,196 @@
+
+<section class="gt_section-403317 " data-name="Collection">
+    <div class="gt_productlist">
+        <div class="gt_container">
+          
+            
+        
+        {% paginate collection.products by 8 %}
+         
+        <div class="gt_productlist-content">
+            <div class="gt_flex gt_flex-column gt_align-i-center gt_productlist-head">
+            <h3>
+              {{collection.title}}
+            </h3>
+            <p>
+              {{collection.description}}
+            </p>
+            </div>
+          	
+            <div class="gt_flex gt_flex-wrap gt_productlist-items">
+            {% for product in collection.products limit:8 %}
+                <div class="gt_productlist-item">
+                    <div class="gt_element-3090" data-name="Product List" keyword="product">
+  <script type="application/json" class="ProductJson" data-id="{{product.id}}" data-variant="{{product.selected_or_first_available_variant.id}}">
+     {{ product | json }}
+  </script> 
+  <a class="link_gt_product" href="{{product.url}}">
+    <div class="gt_product_content">
+      <div class="gt_image_product">
+        <div class="image_content">
+          <img class="gt_lazyload" src="{{ product.featured_image.src | img_url: '300x' }}" data-id="{{ product.featured_image.id }}" alt="{{ product.featured_image.alt }}">
+        </div>
+        <div class="overlay_img"></div>
+        
+        <div class="tag_sale_content">
+            {%- if product.compare_at_price > 0 and product.compare_at_price > product.selected_or_first_available_variant.price -%}
+            {%- assign saved = product.compare_at_price | minus: product.selected_or_first_available_variant.price -%}
+            {%- assign comparePriceFloat = product.compare_at_price | times: 1.0 -%}
+            {%- assign diff = saved | divided_by: comparePriceFloat -%}
+            {%- assign diff = diff | times: 100.0 -%}
+            {%- assign diff = diff | round -%}
+
+            {% if diff > 9 %}
+            <span class="tag_sale_product">-{{ diff }}%</span>
+            {% else %}
+            <span class="tag_sale_product sale_one_number">-{{ diff }}%</span>
+            {%- endif -%}
+
+            {%- endif -%}
+         
+        </div>
+
+        {% assign endDate = "" %}
+        
+        
+        
+        {% if product.id == auto %}
+          {% assign endDate = "" %}
+        {% endif %}
+        
+
+        {% if endDate != "" %}
+        <div class="gt_countdown" end-date="{{endDate}}" product-id="{{product.id}}">
+          <div class="count_down_content">
+            <span class="time_count_down">
+              <span class="time_count_down-hours">00</span>:<span class="time_count_down-minutes">00</span>:<span class="time_count_down-seconds">00</span>
+            </span>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+      <div class="gt_flex gt_product_price">
+        {%- if product.compare_at_price > 0 and product.compare_at_price > product.selected_or_first_available_variant.price -%}
+          <span class="gt_product-price--compare gt_compare_price" data-currentprice="{{ product.compare_at_price }}">{{product.compare_at_price | money }}</span>
+        {%- endif -%}
+          <span class="gt_curent_price gt_product-price--number" data-currentprice="{{ product.selected_or_first_available_variant.price }}">{{product.selected_or_first_available_variant.price | money }}</span>
+      </div>
+      <div class="gt_product_name">
+          {{product.title}}
+      </div>
+    </div>
+  </a>
+</div>
+
+                </div>
+             {% endfor %}
+        	</div>
+          	{%- if paginate.pages > 1 -%}
+            <div class="paging">
+               <ul class="list_page">
+                  {%- if paginate.previous-%}
+                  <li>
+                    <span>
+                      <a href="{{ paginate.previous.url }}"><div class="arrow-right icon"></div></a>
+                    </span>
+                  </li>
+                  {%- else -%}
+                  <li class="disabled">
+                    <span>
+                      <a><div class="arrow-right icon"></div></a>
+                    </span>
+                  </li>
+                  {%- endif -%}
+
+                  {%- for part in paginate.parts -%}
+                  {%- if part.is_link -%}
+                  <li class="item">
+                    <span>
+                      <a href="{{ part.url }}">{{ part.title }}</a>
+                    </span>
+                  </li>
+                  {%- else -%}
+                  {%- if part.title == paginate.current_page -%}
+                  <li class="item current">
+                    <span>{{ part.title }}</span>
+                  </li>
+                  {%- else -%}
+                  <li class="item current">
+                    <span>{{ part.title }}</span>
+                  </li>
+                  {%- endif -%}
+                  {%- endif -%}
+                  {%- endfor -%}
+                  {%- if paginate.next -%}
+                  <li class="item next">
+                    <span>
+                      <a href="{{ paginate.next.url }}"><div class="arrow-right icon"></div></a>
+                    </span>
+                  </li>
+                  {%- else -%}
+                  <li class="item next">
+                    <span>
+                      <a><div class="arrow-right icon"></div></a>
+                    </span>
+                  </li>
+                  {%- endif -%}
+                </ul>
+            </div>
+            {%- endif -%}
+        </div>
+        
+       {% endpaginate %}
+       
+    </div>
+</div></section>
+
+<section class="gt_section-403316 " data-name="Newsletter">
+  <div class="gt_newletter">
+    <div class="gt_container">
+      <div class="gt_flex gt_align-i-center gt_justify-c-center gt_flex-wrap gt_newletter-body">
+        <div class="gt_newletter_content">
+          <h5 class="gt_newletter_headding">
+              Exclusive 10% Discount
+          </h5>
+          <p class="gt_newletter_message">
+            Join our Email List and get 10% OFF on your first order.
+          </p>
+        </div>
+        <div class="gt_newletter-form">
+          
+            {% form 'customer' %} 
+          
+         
+          {% if form.errors %}
+              {% for field in form.errors %}
+                  <div class="gt_newletter_input">
+                    <p class="result-error">{{ field }} {{ form.errors.messages[field] }}</p>
+                  </div>
+              {% endfor %}
+          {% endif %}
+            
+          {% if form.posted_successfully? %}
+              <div class="gt_newletter_input">
+                <p class="result">Thanks for subscribing</p>
+              </div>
+          {% else %}
+          <div class="gt_newletter_input">
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <input class="gt_input" type="email" value="{% if customer %}{{ customer.email }}{% endif %}" name="contact[email]" autocorrect="off" autocapitalize="off" placeholder="Your email here...">
+            <button class="gt_newletter_btn" id="Subscribe" type="submit" aria-label="Subscribe">
+            Submit!
+          </button>
+          </div>
+          <p class="result"></p>
+          <p class="result-error"></p>
+          {% endif %}
+          
+            {% endform %}
+          
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+

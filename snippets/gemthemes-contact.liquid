@@ -1,0 +1,110 @@
+
+<section class="gt_section-403408 " data-name="Contact Page">
+    <section class="gt_contact-page">
+      <div class="gt_container">
+        <div class="gt_flex gt_flex-xs-column gt_flex-sm-column">
+            <div class="gt_contact-left ">
+                <h2>
+                  SEND US A MESSAGE
+                </h2>
+                 
+                    {% form 'contact' %}
+                
+                    <div class="contact-form">
+                      <input type="text" placeholder="Your name*" id="ContactFormName" name="contact[name]" autocapitalize="words" value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}">
+                        <input type="email" placeholder="Your email adress*" id="ContactFormEmail" name="contact[email]" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}">
+                        <input type="number" placeholder="Contact phone number" id="ContactFormPhone" name="contact[phone]" autocorrect="off" autocapitalize="off" value="{% if form.phone %}{{ form.phone }}{% elsif customer %}{{ customer.phone }}{% endif %}">
+                        <textarea name="contact[body]" id="ContactFormMessage" class="form-control" cols="30" rows="5" placeholder="Your Message...">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+                    </div>
+                    <div class="error-mess">
+                        {% if form.posted_successfully? %}
+                            <p class="success">Sucess</p>
+                        {% endif %}
+                        {% if form.errors %}
+                            {% for field in form.errors %}
+                                <p class="fail">{{ field }} {{ form.errors.messages[field] }}</p>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <div class="button-send-contact">
+                        <button type="submit">
+                            Send
+                        </button>
+                    </div>
+                
+                {% endform %}
+                
+            </div>
+            <div class="gt_contact-right ">
+                <h2>
+                   GET IN TOUCH
+                </h2>
+                <div class="contact-info">
+                    <div class="contact-detail">
+                        <h4>
+                          DIRECT CONTACT
+                        </h4>
+                        <p>
+                            <a href="tel:+333 123 4567">
+                              +333 123 4567
+                            </a>
+                        </p>
+                        <p>
+                            <a href="mailto:support@meganbebas.uk">
+                              support@meganbebas.uk
+                            </a>
+                        </p>
+                        <h4 class="margin-10">
+                          AVAILABILITY
+                        </h4>
+                        <p>
+                          Mon-Sat 8am-6pm Eastern
+                        </p>
+                    </div>
+                    <div class="button-live-chat">
+                        <button type="button" onclick="location.href='#';" value>
+                            Live chat with us
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+        
+    </section>
+</section>
+
+<section class="gt_section-403308 " data-name="News Letter">
+   <div class="gt_newsletter">
+      <div class="gt_container">
+         <h2>Newsletter</h2>
+         <p>Subscribe to our newsletter and get reviews of the latest products and services</p>
+          {% form 'customer' %}
+            {% if form.errors %}
+                {% for field in form.errors %}
+                   <div class="gt_newsletter-from">
+                      <p class="result-error">{{ field }} {{ form.errors.messages[field] }}</p>
+                   </div>
+                {% endfor %}
+            {% endif %}
+  
+            {% if form.posted_successfully? %}
+                <div class="gt_newsletter-from">
+                  <p class="result">Thanks for subscribing</p>
+               </div>
+            {% else %}
+               <div class="gt_newsletter-from">
+                  <div class="gt_flex gt_password-input">
+                     <input type="hidden" name="contact[tags]" value="newsletter">
+                     <input type="text" value="{% if customer %}{{ customer.email }}{% endif %}" name="contact[email]" placeholder="Enter your email" class="input-newsletter input-group-field newsletter__input" autocorrect="off" autocapitalize="off">
+                     <button name="commit" type="submit" class="validate button--secondary newsletter__submit" aria-label="Subscribe">Subscribe!
+                     </button>
+                  </div>
+                  <p class="result"></p>
+                  <p class="result-error"></p>
+               </div>
+            {% endif %}
+          {% endform %}
+      </div>
+   </div>
+</section>
